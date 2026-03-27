@@ -15,14 +15,6 @@ from ..utils.grad_cam import get_grad_cam_for_model
 router = APIRouter(prefix="/api", tags=["prediction"])
 image_processor = ImageProcessor()
 
-# Initialize models on startup
-@router.on_event("startup")
-async def startup_event():
-    """Load models on application startup"""
-    chest_model_path = os.getenv("CHEST_XRAY_MODEL_PATH", "../models/inference/chest_xray_model.pth")
-    brain_model_path = os.getenv("BRAIN_MRI_MODEL_PATH", "../models/inference/brain_mri_model.pth")
-    
-    model_loader.load_all_models(chest_model_path, brain_model_path)
 
 @router.post("/predict", response_model=PredictionResponse)
 async def predict_medical_image(
@@ -64,6 +56,11 @@ async def predict_medical_image(
         raise HTTPException(status_code=400, detail="Invalid image file")
     
     start_time = time.time()
+    
+    # 🔥 Debug print
+    print("Prediction API hit")
+    print(f"Image type: {image_type}")
+    print(f"File size: {file_size} bytes")
     
     try:
         # Preprocess image
