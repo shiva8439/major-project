@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=your-secret-key-change-in-production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/medical_diagnosis
+      - CHEST_XRAY_MODEL_PATH=/app/models/inference/chest_xray_model.pth
+      - BRAIN_MRI_MODEL_PATH=/app/models/inference/brain_mri_model.pth
+      - UPLOAD_DIR=/app/uploads
+      - ALLOWED_ORIGINS=["http://localhost:3000", "http://frontend:3000"]
+    volumes:
+      - ./models:/app/models
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - medical-diagnosis-network
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - medical-diagnosis-network
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=medical_diagnosis
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - medical-diagnosis-network
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - medical-diagnosis-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  medical-diagnosis-network:
+    driver: bridge

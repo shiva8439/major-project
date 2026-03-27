@@ -1,0 +1,162 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        secondary: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#5eead4',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+        },
+        accent: {
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#991b1b',
+          900: '#78350f',
+        },
+        success: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#86efac',
+          300: '#4ade80',
+          400: '#22c55e',
+          500: '#16a34a',
+          600: '#15803d',
+          700: '#166534',
+          800: '#14532d',
+          900: '#134e4a',
+        },
+        warning: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
+        },
+        error: {
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+        }
+      },
+      borderColor: {
+        DEFAULT: 'hsl(var(--border))',
+      },
+      backgroundImage: {
+        'gradient-bg': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      },
+      borderColor: {
+        DEFAULT: 'hsl(var(--border))',
+        input: 'hsl(var(--border))',
+      },
+      backgroundColor: {
+        'gradient-bg': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'card': 'hsl(var(--card))',
+        'background': 'hsl(var(--background))',
+        'foreground': 'hsl(var(--foreground))',
+        'muted-foreground': 'hsl(var(--muted-foreground))',
+      },
+      ringOffsetColor: {
+        background: 'hsl(var(--background))',
+      },
+      ringColor: {
+        blue: 'rgb(59, 130, 246)',
+        gray: 'rgb(107, 114, 128)',
+      red: 'rgb(239, 68, 68)',
+      primary: 'rgb(59, 130, 246)',
+      secondary: 'rgb(107, 114, 128)',
+      accent: 'rgb(251, 146, 60)',
+        warning: 'rgb(251, 146, 60)',
+        error: 'rgb(239, 68, 68)',
+        success: 'rgb(34, 197, 94)',
+      },
+      ringOffsetWidth: {
+        DEFAULT: '2px',
+        sm: '1px',
+        md: '2px',
+        lg: '4px',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.3s ease-out',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-gentle': 'bounceGentle 2s infinite',
+        'spin-slow': 'spin 3s linear infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        bounceGentle: {
+          '0%, 100%': { transform: 'translateY(-5%)' },
+          '50%': { transform: 'translateY(0)' },
+        },
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+        '128': '32rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+    },
+  },
+  plugins: [],
+  corePlugins: {
+    preflight: true,
+  },
+}
