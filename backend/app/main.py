@@ -14,13 +14,23 @@ from .models.prediction import HealthCheck
 load_dotenv()
 
 # Configure logging
+log_handlers = [logging.StreamHandler()]
+
+# Only use file logging in local environment (not production)
+if os.getenv("ENV") != "production":
+    os.makedirs("logs", exist_ok=True)
+    file_handler = logging.FileHandler('logs/backend.log', encoding='utf-8')
+    log_handlers.append(file_handler)
+
+# Create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+for handler in log_handlers:
+    handler.setFormatter(formatter)
+
+# Configure root logger
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/backend.log'),
-        logging.StreamHandler()
-    ]
+    handlers=log_handlers
 )
 
 logger = logging.getLogger(__name__)
@@ -123,7 +133,7 @@ async def startup_event():
     os.makedirs(upload_dir, exist_ok=True)
     
     logger.info("AI Medical Diagnosis System started successfully")
-    logger.info(f"Documentation available at: http://localhost:8000/docs")
+    logger.info("Documentation available at: /docs")
 
 # Shutdown event
 @app.on_event("shutdown")
