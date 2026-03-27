@@ -45,7 +45,16 @@ app = FastAPI(
 )
 
 # Configure CORS
-allowed_origins = ["http://localhost:3000", "http://127.0.0.1:62577", "http://localhost:5173", "http://127.0.0.1:3000", "http://10.76.175.56:3000", "http://10.76.175.76:3000"]
+allowed_origins = [
+    "http://localhost:3000", 
+    "http://127.0.0.1:62577", 
+    "http://localhost:5173", 
+    "http://127.0.0.1:3000", 
+    "http://10.76.175.56:3000", 
+    "http://10.76.175.76:3000",
+    "https://major-project-usha.onrender.com",
+    "*"  # Allow all origins for mobile apps
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -131,6 +140,14 @@ async def startup_event():
     # Create necessary directories
     os.makedirs("logs", exist_ok=True)
     os.makedirs(upload_dir, exist_ok=True)
+    
+    # 🔥 Load models properly
+    from .utils.model_loader import model_loader
+    chest_model_path = os.getenv("CHEST_XRAY_MODEL_PATH", "models/inference/chest_xray_model.pth")
+    brain_model_path = os.getenv("BRAIN_MRI_MODEL_PATH", "models/inference/brain_mri_model.pth")
+    
+    model_loader.load_all_models(chest_model_path, brain_model_path)
+    logger.info("Models loaded successfully ✅")
     
     logger.info("AI Medical Diagnosis System started successfully")
     logger.info("Documentation available at: /docs")
