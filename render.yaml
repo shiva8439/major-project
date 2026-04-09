@@ -1,0 +1,27 @@
+services:
+  # Type of web service (web, pserv, static)
+  type: pserv
+  
+  # Name of your web service (defaults to directory name)
+  name: ai-medical-diagnosis-api
+  
+  # Environment variables (optional)
+  env:
+    - key: PYTHON_VERSION
+      value: 3.9.0
+    
+  # Build commands and start commands
+  buildCommand: "pip install -r backend/requirements.txt"
+  startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+  
+  # Directory to deploy from (defaults to root directory)
+  buildDir: .
+  
+  # Health check path (defaults to /)
+  healthCheckPath: /health
+  
+  # Auto-deploy on git push
+  autoDeploy: true
+  
+  # Plan (optional)
+  plan: free
