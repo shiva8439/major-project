@@ -12,7 +12,7 @@ services:
     
   # Build commands and start commands
   buildCommand: "pip install -r backend/requirements.txt"
-  startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+  startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
   
   # Directory to deploy from (defaults to root directory)
   buildDir: .
