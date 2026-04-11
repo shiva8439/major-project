@@ -18,16 +18,12 @@ const ResultScreen = () => {
     );
   }
 
-  const getConfidenceColor = (confidence) => {
-    if (confidence >= 0.8) return 'confidence-high';
-    if (confidence >= 0.6) return 'confidence-medium';
-    return 'confidence-low';
-  };
-
-  const getConfidenceText = (confidence) => {
-    if (confidence >= 0.8) return 'High';
-    if (confidence >= 0.6) return 'Medium';
-    return 'Low';
+  const getConfidenceLevel = (confidence) => {
+    if (confidence >= 90) return { level: 'Very High', color: '#11998e', icon: '🎯' };
+    if (confidence >= 75) return { level: 'High', color: '#11998e', icon: '✅' };
+    if (confidence >= 60) return { level: 'Medium', color: '#f093fb', icon: '⚠️' };
+    if (confidence >= 40) return { level: 'Low', color: '#ff6b6b', icon: '🔍' };
+    return { level: 'Very Low', color: '#ff6b6b', icon: '❓' };
   };
 
   const getTumorTypeInfo = (prediction) => {
@@ -123,16 +119,12 @@ const ResultScreen = () => {
 
         <div className="result-item">
           <span className="result-label">Confidence:</span>
-          <span className={`confidence-badge ${getConfidenceColor(result.confidence)}`}>
-            {(result.confidence * 100).toFixed(1)}% ({getConfidenceText(result.confidence)})
-          </span>
+          <div className="confidence-badge" style={{ backgroundColor: confidenceInfo.color }}>
+            {confidenceInfo.icon} {confidenceInfo.level} Confidence
+          </div>
         </div>
-
         <div className="result-item">
           <span className="result-label">Description:</span>
-          <span className="result-value" style={{ fontSize: '0.95rem' }}>
-            {tumorInfo.description}
-          </span>
         </div>
 
         <div className="result-item">
