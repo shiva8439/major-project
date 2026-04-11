@@ -32,7 +32,7 @@ const ImageUploadScreen = () => {
       formData.append('image', selectedImage);
       formData.append('image_type', 'brain_mri');
 
-      const response = await axios.post('http://localhost:8001/api/predict', formData, {
+      const response = await axios.post('http://localhost:8002/api/predict', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
