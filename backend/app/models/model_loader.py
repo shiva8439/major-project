@@ -4,11 +4,11 @@ from torch import Tensor
 from torchvision import models
 from pathlib import Path
 from typing import Dict, Optional, Tuple
-from ..utils.config import CHEST_XRAY_MODEL_PATH, BRAIN_MRI_MODEL_PATH, CLASS_LABELS
+from ..utils.config import BRAIN_MRI_MODEL_PATH, BRAIN_MRI_CLASSES
 
 class MedicalModel(nn.Module):
     """Base model for medical classification (ResNet18)"""
-    def __init__(self, num_classes: int = 2):
+    def __init__(self, num_classes: int = 5):
         super().__init__()
         self.model = models.resnet18(weights='DEFAULT')
         self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
@@ -26,9 +26,9 @@ class ModelLoader:
     
     def load_model(self, model_path: Path, model_type: str) -> MedicalModel:
         """Load model from .pth"""
-        # Get number of classes for this model type
-        from ..utils.config import CLASS_LABELS
-        num_classes = len(CLASS_LABELS[model_type])
+        # Get number of classes for brain MRI
+        from ..utils.config import BRAIN_MRI_CLASSES
+        num_classes = len(BRAIN_MRI_CLASSES)
         
         if model_path.exists():
             model = MedicalModel(num_classes=num_classes)
@@ -60,7 +60,7 @@ class ModelLoader:
             outputs = model(image_tensor)
             probs = torch.softmax(outputs, dim=1)
             conf, pred_idx = torch.max(probs, 1)
-            pred_label = CLASS_LABELS[model_type][pred_idx.item()]
+            pred_label = BRAIN_MRI_CLASSES[pred_idx.item()]
         
         return pred_label, conf.item()
 

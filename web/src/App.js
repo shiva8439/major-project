@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
-          <Route path="/upload/:imageType" element={<ImageUploadScreen />} />
+          <Route path="/upload/brain_mri" element={<ImageUploadScreen />} />
           <Route path="/result" element={<ResultScreen />} />
           <Route path="/history" element={<HistoryScreen />} />
         </Routes>

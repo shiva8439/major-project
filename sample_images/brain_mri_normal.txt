@@ -1,0 +1,3 @@
+Placeholder for brain_mri_normal.jpg
+Replace with real brain MRI image (Normal)
+

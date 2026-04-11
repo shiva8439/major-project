@@ -1,0 +1,3 @@
+Placeholder for chest_xray_pneumonia.jpg
+Replace with real chest X-ray image (Pneumonia case)
+

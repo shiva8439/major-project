@@ -9,21 +9,17 @@ const HomeScreen = () => {
         <p className="subtitle">Upload medical images for AI-powered diagnosis</p>
       </div>
       
-      <div className="card">
-        <h2>Choose Analysis Type</h2>
-        <div style={{ marginTop: '30px' }}>
-          <Link to="/upload/chest_xray" className="button chest-xray">
-            Chest X-ray Analysis
-          </Link>
-          <br />
-          <Link to="/upload/brain_mri" className="button brain-mri">
-            Brain MRI Analysis
-          </Link>
-          <br />
-          <Link to="/history" className="button history">
-            View History
-          </Link>
-        </div>
+      <div className="card-grid">
+        <Link to="/upload/brain_mri" className="card">
+          <div className="card-icon">{'\ud83e\udde0'}</div>
+          <h2>Brain MRI Analysis</h2>
+          <p>Detect brain tumors from MRI scans with AI</p>
+        </Link>
+        <Link to="/history" className="card">
+          <div className="card-icon">{'\ud83d\udcbb'}</div>
+          <h2>View History</h2>
+          <p>View your previous diagnoses</p>
+        </Link>
       </div>
     </div>
   );

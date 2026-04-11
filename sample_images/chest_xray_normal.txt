@@ -1,0 +1,3 @@
+Placeholder for chest_xray_normal.jpg
+Replace with real 224x224 chest X-ray image (Normal case)
+

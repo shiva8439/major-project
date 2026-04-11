@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ImageUploadScreen = () => {
-  const { imageType } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const title = imageType === 'chest_xray' ? 'Chest X-ray Analysis' : 'Brain MRI Analysis';
+  const title = 'Brain MRI Analysis';
 
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
@@ -31,7 +30,7 @@ const ImageUploadScreen = () => {
     try {
       const formData = new FormData();
       formData.append('image', selectedImage);
-      formData.append('image_type', imageType);
+      formData.append('image_type', 'brain_mri');
 
       const response = await axios.post('http://localhost:8000/api/predict', formData, {
         headers: {
@@ -43,7 +42,7 @@ const ImageUploadScreen = () => {
         state: {
           result: response.data,
           imageUri: URL.createObjectURL(selectedImage),
-          imageType,
+          imageType: 'brain_mri',
         },
       });
     } catch (err) {

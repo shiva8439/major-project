@@ -10,26 +10,26 @@ import torch
 
 from app.database.models import Prediction, get_db
 from app.utils.image_utils import validate_image, preprocess_image, save_uploaded_image, load_image_for_display
-from app.utils.config import UPLOAD_DIR, HEATMAP_DIR
+from app.utils.config import UPLOAD_DIR, HEATMAP_DIR, BRAIN_MRI_MODEL_PATH
 from app.models.model_loader import model_loader
 from app.models.gradcam import get_gradcam
-from app.models.model_loader import CLASS_LABELS
+from app.utils.config import BRAIN_MRI_CLASSES
 
 router = APIRouter()
 
 @router.post("/predict")
 async def predict_medical_image(
     image: UploadFile = File(...),
-    image_type: str = Form(...),  # chest_xray or brain_mri
+    image_type: str = Form(...),  # brain_mri only
     db: Session = Depends(get_db)
 ):
     """
-    Predict medical image diagnosis
+    Predict brain tumor diagnosis from MRI
     - Upload image (jpg/png)
-    - Select type: chest_xray or brain_mri
+    - Only brain MRI analysis supported
     """
-    if image_type not in ["chest_xray", "brain_mri"]:
-        raise HTTPException(400, "Invalid image_type")
+    if image_type != "brain_mri":
+        raise HTTPException(400, "Only brain MRI analysis is supported")
     
     # Read image bytes
     image_bytes = await image.read()
@@ -43,13 +43,8 @@ async def predict_medical_image(
     original_path = save_uploaded_image(image_bytes, filename)
     
     # Load model if not loaded
-    model_key = image_type
-    if model_key not in model_loader.models:
-        from app.utils.config import CHEST_XRAY_MODEL_PATH, BRAIN_MRI_MODEL_PATH
-        if image_type == "chest_xray":
-            model_loader.load_model(CHEST_XRAY_MODEL_PATH, model_key)
-        else:
-            model_loader.load_model(BRAIN_MRI_MODEL_PATH, model_key)
+    model_key = "brain_mri"
+    model = model_loader.load_model(BRAIN_MRI_MODEL_PATH, model_key)
     
     # Preprocess
     pil_image = Image.open(io.BytesIO(image_bytes))
@@ -57,7 +52,7 @@ async def predict_medical_image(
     
     # Predict
     pred_label, confidence = model_loader.predict(model_key, img_tensor)
-    pred_idx = CLASS_LABELS[model_key].index(pred_label)
+    pred_idx = BRAIN_MRI_CLASSES.index(pred_label)
     
     # Generate heatmap
     heatmap_path = get_gradcam(model_key, img_tensor, pred_idx, original_path)

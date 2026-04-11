@@ -15,11 +15,8 @@ STD = [0.229, 0.224, 0.225]
 
 IMG_SIZE = (224, 224)
 
-# Class labels
-CLASS_LABELS = {
-    "chest_xray": ["Normal", "Pneumonia", "COVID-19", "Tuberculosis"],
-    "brain_mri": ["Normal", "Glioma", "Meningioma", "Pituitary Tumor", "Metastasis"]
-}
+# Class labels for brain tumor detection
+BRAIN_MRI_CLASSES = ['No Tumor', 'Glioma', 'Meningioma', 'Pituitary Tumor', 'Metastasis']
 
 # API config
 BACKEND_HOST = "http://localhost:8000"
