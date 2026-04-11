@@ -74,7 +74,7 @@ async def predict_medical_image(
         "id": db_prediction.id,
         "image_type": image_type,
         "prediction": pred_label,
-        "confidence": round(confidence * 100, 2),
+        "confidence": round(confidence * 100, 1),
         "heatmap_url": f"/api/heatmap/{db_prediction.id}",
         "message": f"Predicted: {pred_label} ({confidence:.2%} confidence)"
     }
