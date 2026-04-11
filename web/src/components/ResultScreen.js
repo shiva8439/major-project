@@ -119,8 +119,8 @@ const ResultScreen = () => {
 
         <div className="result-item">
           <span className="result-label">Confidence:</span>
-          <div className="confidence-badge" style={{ backgroundColor: confidenceInfo.color }}>
-            {confidenceInfo.icon} {confidenceInfo.level} Confidence
+          <div className="confidence-badge" style={{ backgroundColor: getConfidenceLevel(result.confidence).color }}>
+            {getConfidenceLevel(result.confidence).icon} {getConfidenceLevel(result.confidence).level} Confidence
           </div>
         </div>
         <div className="result-item">
